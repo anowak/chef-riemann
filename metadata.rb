@@ -1,8 +1,8 @@
 name             'riemann'
-maintainer       'Simple Finance'
-maintainer_email 'ops@simple.com'
+maintainer       'Artur Nowak'
+maintainer_email 'mail@anowak.net'
 description      'Installs/Configures Riemann'
-version          '1.0.0'
+version          '1.1.0'
 
 depends 'java'
 depends 'rbenv'

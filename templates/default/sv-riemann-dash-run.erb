@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 exec 2>&1
 ulimit -n 4096
 ulimit -a
 
+source /etc/profile
+
 exec chpst -u riemann \
-  -e <%= @options[:envdir] %> \
   riemann-dash <%= @options[:confdir] %>/config.rb

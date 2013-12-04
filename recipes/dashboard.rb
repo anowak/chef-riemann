@@ -33,20 +33,19 @@ template ::File.join(node[:riemann][:dashboard][:directory], 'config.rb') do
   group 'riemann'
   mode 00755
   variables(
-    :port => node[:riemann][:dashboard][:port] )
+    :host => node[:riemann][:dashboard][:host],
+    :port => node[:riemann][:dashboard][:port],
+    :directory => node[:riemann][:dashboard][:directory]
+  )
   action :create
+  notifies :restart, 'runit_service[riemann-dash]'
 end
 
-gem_package 'riemann-dash' do
-  gem_binary '/usr/local/rbenv/shims/gem'
-  action :install
-end
+rbenv_gem 'riemann-dash'
 
 runit_service 'riemann-dash' do
-  env node[:riemann][:dashboard][:env]
   default_logger true
   options(
-    :envdir => "#{node[:runit][:sv_dir]}/riemann-dash/env",
     :confdir => node[:riemann][:dashboard][:directory] )
   action [:enable, :start]
 end

@@ -11,8 +11,9 @@ install. We'll plan to make this more dynamic with time.
 
 The `dashboard` recipe sets up the Riemann dashboard as a runit service.
 
-## Author
+## Authors
 Simple Finance <ops@simple.com>
+Artur Nowak <mail@anowak.net>
 
 ## License
 Apache License, Version 2.0

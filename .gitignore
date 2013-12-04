@@ -1,8 +1,5 @@
 .vagrant
-Cheffile.lock
-tmp
 Berksfile.lock
-Gemfile.lock
 *~
 *#
 .#*
@@ -10,3 +7,9 @@ Gemfile.lock
 .*.sw[a-z]
 *.un~
 /cookbooks
+
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+

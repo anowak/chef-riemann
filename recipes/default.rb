@@ -20,10 +20,13 @@
 # Configures the Riemann server
 
 include_recipe 'java::default'
-include_recipe 'rbenv::system'
+include_recipe 'rbenv'
+include_recipe 'rbenv::ruby_build'
 include_recipe 'runit::default'
 
-rbenv_global '1.9.3-p374'
+rbenv_ruby node[:rbenv][:rubies] do
+  global true
+end
 
 user node[:riemann][:user][:name] do
   home node[:riemann][:user][:home]
@@ -55,12 +58,37 @@ package ::File.join(Chef::Config[:file_cache_path], node[:riemann][:package]) do
   action :install
 end
 
+template '/etc/riemann/riemann.config' do
+  owner 'riemann'
+  group 'riemann'
+  mode 00755
+  variables(node[:riemann][:server])
+  action :create
+  notifies :restart, 'runit_service[riemann]'
+end
+
+additional_config = node[:riemann][:server][:additional_config]
+if additional_config then
+  cookbook_file "/etc/riemann/#{additional_config}" do
+    source "riemann/#{additional_config}"
+    cookbook node[:riemann][:server][:additional_config_cookbook]
+    mode 00755
+    owner 'riemann'
+    group 'riemann'
+    notifies :restart, 'runit_service[riemann]'
+  end
+end
+
 runit_service 'riemann' do
   supports :restart => true
   default_logger true
   action [:enable, :start]
 end
 
-include_recipe 'riemann::utilities'
-include_recipe 'riemann::dashboard'
+if node[:riemann][:dashboard][:enable] then
+  include_recipe 'riemann::dashboard'
+end
 
+if node[:riemann][:health][:enable] then
+  include_recipe 'riemann::utilities'
+end

@@ -19,15 +19,11 @@
 #
 # Various utilities to support Riemann
 
-%w{ libxslt-dev libxml2-dev }.each do |pkg|
-  package pkg do
-    action :install
-  end
+%w{libxslt-dev libxml2-dev}.each do |pkg|
+  package pkg
 end
 
-%w{ riemann-client riemann-tools }.each do |gem|
-  gem_package gem do
-    action :install
-  end
+%w{riemann-client riemann-tools}.each do |gem|
+  rbenv_gem gem
 end
 
