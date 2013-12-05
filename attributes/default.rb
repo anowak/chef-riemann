@@ -20,11 +20,13 @@ default[:riemann][:server][:tcp_port] = 5555
 default[:riemann][:server][:udp_port] = 5555
 default[:riemann][:server][:ws_port] = 5556
 default[:riemann][:server][:additional_config] = 'sample_config.clj'
+default[:riemann][:server][:additional_config_cookbook] = nil # this cookbook
 
 default[:riemann][:dashboard][:enable] = true
 default[:riemann][:dashboard][:host] = '0.0.0.0'
 default[:riemann][:dashboard][:port] = 4567
 default[:riemann][:dashboard][:directory] = '/opt/riemann-dash'
+default[:riemann][:dashboard][:directory_cookbook] = nil # this cookbook
 
 default[:riemann][:health][:enable] = false
 

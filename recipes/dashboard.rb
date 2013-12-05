@@ -21,6 +21,7 @@
 
 remote_directory node[:riemann][:dashboard][:directory] do
   source 'riemann-dash'
+  cookbook node[:riemann][:dashboard][:directory_cookbook]
   owner 'riemann'
   group 'riemann'
   mode 00755
