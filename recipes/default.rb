@@ -19,7 +19,11 @@
 #
 # Configures the Riemann server
 
-include_recipe 'java::default'
+node.set['java']['oracle']['accept_oracle_download_terms'] = true
+node.set['java']['jdk_version'] = 8
+
+include_recipe 'java::oracle'
+
 include_recipe 'rbenv'
 include_recipe 'rbenv::ruby_build'
 include_recipe 'runit::default'
@@ -65,18 +69,6 @@ template '/etc/riemann/riemann.config' do
   variables(node[:riemann][:server])
   action :create
   notifies :restart, 'runit_service[riemann]'
-end
-
-additional_config = node[:riemann][:server][:additional_config]
-if additional_config then
-  cookbook_file "/etc/riemann/#{additional_config}" do
-    source "riemann/#{additional_config}"
-    cookbook node[:riemann][:server][:additional_config_cookbook]
-    mode 00755
-    owner 'riemann'
-    group 'riemann'
-    notifies :restart, 'runit_service[riemann]'
-  end
 end
 
 runit_service 'riemann' do
